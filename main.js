@@ -82,6 +82,7 @@ function validateGuess(guess) {
 		guessedStreets.features.push(...feature.features)
 		map.getSource('guessed').setData(guessedStreets)
 		guessedNames.push(guess)
+		$('#count').html(`${guessedNames.length} streets found`)
 		return true
 	}
 	return false
@@ -112,8 +113,14 @@ $('#numberedhelper').on('click', (e) => {
 })
 
 $('#clear').on('click', (e) => {
-	console.log('click')
 	window.localStorage.setItem('save', '')
+	$('#guesses').html('')
+	$('#score').html('0.00%')
+	$('#count').html('0 streets found')
+	completedDistance = 0.0
+	guessedNames = []
+	guessedStreets.features = []
+	map.getSource('guessed').setData(guessedStreets)
 })
 
 function calculatePercentage(portion, total) {

@@ -4,28 +4,28 @@
 	<script src='https://code.jquery.com/jquery-3.7.1.min.js'></script>
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+	<link href='style.css' rel='stylesheet' />
 	<script src='streetdata.js'></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding:0; background: #20052e; font-family: sans-serif;">
-	<div style="height: 100vh; width: 100vw; display: flex;">
-		<div style="width: 60%">
+<body>
+	<div id="content">
+		<div id="mapcontainer">
 			<div id='map' style='width: 100%; height: 100%'></div>
 		</div>
-		<div style="width: 40%; max-height: 100%; color: white">
-			<h1 id="score" style="padding-top: 6rem">0.00%</h1>
+		<div id="sidecard">
+			<h1 id="score">0.00%</h1>
 			<p>of miles of streets named</p>
-			<input id="input" type="text" placeholder="Enter street name" style="border-radius: 10px; width: 90%; height: 42px; font-size: 150%;"/>
+			<input id="input" type="text" placeholder="Enter street name"/>
 			<div style="display: flex;">
 				<h3 id="count">0 streets found</h3>
-				<h3><a id="clear" href="javascript:;" style="color: lightgray;">(Clear)</a><h3>
+				<h3><a id="clear" href="javascript:;">(Clear)</a><h3>
 			</div>
-			<ul id="guesses" style="overflow: scroll; height: 50%; padding: 0; list-style: none;"></ul>
+			<ul id="guesses"></ul>
 			<div style="padding-bottom: 1rem; padding-right: 1rem;">
-				<caption>Note: this data has not been sanitized and there are some... interesting bits of road you probably cant guess (LSD LSD Wacker Dr if you want a freebie). I will work on fixing this so you can attempt to 100%. Luckily these are mostly highway off ramps and you should be able to get very close to 100% without them. Also because this saves your guesses, you should be able to come back to it once it's fixed.</caption>
+				<a id="numberedhelper">Auto-populate numbered streets (there's so many smh my head)</a>
 				<br />
-				<a id="numberedhelper" href="javascript:;" style="color: lightgray;">Auto-populated numbered streets (there's so many smh my head)</a>
-				<br />
-				<a href="https://twitter.com/ahavaharavah" style="color: lightgray;">Get updates on Twitter</a>
+				<a href="https://twitter.com/ahavaharavah" target="_blank">Get updates on Twitter</a>
 			</div>
 		</div>
 	</div>

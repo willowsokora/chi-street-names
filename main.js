@@ -80,7 +80,7 @@ map.on('load', () => {
 	if (window.localStorage.getItem('save')) {
 		let savedGuesses = window.localStorage.getItem('save').split(',')
 		for (guess in savedGuesses) {
-		validateGuess(savedGuesses[guess])
+			validateGuess(savedGuesses[guess])
 		}
 	} else {
 		window.localStorage.setItem('save', '')
@@ -93,7 +93,6 @@ $('#input').keypress((event) => {
 		var input = $('#input').val().toUpperCase()
 		$('#input').val('')
 		if (validateGuess(input)) {
-			console.log('updating save')
 			window.localStorage.setItem('save', `${localStorage.getItem('save')}${input},`)
 		}
 	}
@@ -144,7 +143,6 @@ function validateGuess(guess) {
 		var percentage = calculatePercentage(feature.length, totalDistance)
 		completedDistance += feature.length
 		var completedPercentage = calculatePercentage(completedDistance, totalDistance)
-		console.log(feature.direction)
 		if (['E', 'W'].includes(feature.direction)) {
 			ewCompleted += feature.length
 			let ewPercentage = calculatePercentage(ewCompleted, ewDistance)

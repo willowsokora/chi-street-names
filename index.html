@@ -1,0 +1,133 @@
+<html>
+<head>
+	<script src='https://code.jquery.com/jquery-3.7.1.min.js'></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+	<script src='streetdata.js'></script>
+</head>
+<body style="margin: 0; padding:0; background: #20052e; font-family: sans-serif;">
+	<div style="height: 100vh; width: 100vw; display: flex;">
+		<div style="width: 60%">
+			<div id='map' style='width: 100%; height: 100%'></div>
+		</div>
+		<div style="width: 40%; max-height: 100%; color: white">
+			<h1 id="score" style="padding-top: 6rem">0.00%</h1>
+			<p>of miles of streets named</p>
+			<input id="input" type="text" placeholder="Enter street name" style="border-radius: 10px; width: 90%; height: 42px; font-size: 150%;"/>
+			<h3 class="has-text-light">0 streets found</h3>
+			<ul id="guesses" style="overflow: scroll; height: 60%; padding: 0; list-style: none;"></ul>
+		</div>
+	</div>
+	<script>
+	  mapboxgl.accessToken = 'pk.eyJ1IjoiYXJhdmFoIiwiYSI6ImNsbWgybTBqaDBlM3EzcW85OHEwenp3YzIifQ.mpbMnWypk_KaLzVqgrcl-A';
+	  var map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/aravah/clmh2on7j03o901ph49xte8ds',
+		dragRotate: false,
+		maxPitch: 0,
+		minZoom: 10,
+		center: [-87.63309727047887, 41.86328162863115],
+		bounds: [-88.0093789998174, 41.60657118494672, -87.4360300144202, 42.08636054196859],
+		fitBoundsOptions: { padding: 24 }
+	  });
+	  let totalDistance = 4493.7450153979025
+	  var completedDistance = 0.0
+	  var guessedStreets = {
+		'type': 'FeatureCollection',
+		'features': []
+	  }
+	  map.on('load', () => {
+		var streets = {
+			'type': 'FeatureCollection',
+			'features': []
+		}
+		for (var street in streetdata) {
+			streets.features.push(...streetdata[street].features)
+		}
+		map.addSource('streets', {
+			'type': 'geojson',
+			'data': streets
+		})
+		map.addLayer({
+			'id': 'streets',
+			'type': 'line',
+			'source': 'streets',
+			'layout': {
+				'line-join': 'round',
+				'line-cap': 'round'
+			},
+			'paint': {
+				'line-color': '#4e355a',
+				'line-width': 1
+			}
+		})
+		map.addSource('guessed', {
+			'type': 'geojson',
+			'data': guessedStreets
+		})
+		map.addLayer({
+			'id': 'guessed',
+			'type': 'line',
+			'source': 'guessed',
+			'layout': {
+				'line-join': 'round',
+				'line-cap': 'round'
+			},
+			'paint': {
+				'line-color': '#30d963',
+				'line-width': 2
+			}
+		})
+	  })
+
+	  if (!document.cookie) {
+	  	document.cookie = ""
+	  }
+	  let savedGuesses = document.cookie.split(',')
+	  for (guess in savedGuesses) {
+	  	validateGuess(guess)
+	  }
+	  
+	  $('#input').keypress((event) => {
+	  	var keycode = (event.keyCode ? event.keyCode : event.which)
+	  	if (keycode == '13') {
+	  		var input = $('#input').val().toUpperCase()
+	  		$('#input').val("")
+	  		var feature = streetdata[input]
+			if (feature) {
+				var percentage = calculatePercentage(feature.length, totalDistance)
+				completedDistance += feature.length
+				var completedPercentage = calculatePercentage(completedDistance, totalDistance)
+				$('#score').html(`${completedPercentage}%`)
+				$('#guesses').append(`<li>${percentage}% - ${input}</li>`)
+				guessedStreets.features.push(...feature.features)
+				map.getSource('guessed').setData(guessedStreets)
+				document.cookie += `${input},`
+				console.log(document.cookie)
+			}
+	  	}
+	  })
+
+	  function validateGuess(guess) {
+	  	console.log(guess)
+	  	var feature = streetdata[input]
+  		if (feature) {
+  			var percentage = calculatePercentage(feature.length, totalDistance)
+  			completedDistance += feature.length
+  			var completedPercentage = calculatePercentage(completedDistance, totalDistance)
+  			$('#score').html(`${completedPercentage}%`)
+  			$('#guesses').append(`<li>${percentage}% - ${input}</li>`)
+  			guessedStreets.features.push(...feature.features)
+  			map.getSource('guessed').setData(guessedStreets)
+  			return true
+  		}
+	  }
+
+	  function calculatePercentage(portion, total) {
+	  	var percentage = portion * 100
+	  	percentage /= total
+	  	return percentage.toFixed(2)
+	  }
+	</script>
+</body>
+</html>

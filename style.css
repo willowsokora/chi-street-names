@@ -1,0 +1,58 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: #20052e;
+	font-family: sans-serif;
+	color: white;
+}
+
+#content {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+}
+
+#mapcontainer {
+	width: 70%;
+}
+
+#sidecard {
+	color: whitesmoke;
+	width: 30%;
+	height: 100%;
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+a {
+	color: whitesmoke;
+}
+
+ul {
+	overflow: scroll;
+	height: 50%;
+	padding: 0;
+	list-style: none;
+}
+
+#count {
+	padding-right: 1rem;
+}
+
+li {
+	display: flex;
+	justify-content: space-between;
+	padding-right: 2rem;
+	padding-bottom: 1rem;
+}
+
+input {
+	border-radius: 0.5rem;
+	height: 2rem;
+	font-size: 1rem;
+	width: 95%;
+}
+
+#score {
+	padding-top: 4rem;
+}

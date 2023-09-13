@@ -14,7 +14,7 @@
 			<h1 id="score" style="padding-top: 6rem">0.00%</h1>
 			<p>of miles of streets named</p>
 			<input id="input" type="text" placeholder="Enter street name" style="border-radius: 10px; width: 90%; height: 42px; font-size: 150%;"/>
-			<h3 class="has-text-light">0 streets found</h3>
+			<h3 class="has-text-light">0 streets found <a id="clear" href="javascript:void();" style="color: lightgray;">(Clear)</a></h3>
 			<ul id="guesses" style="overflow: scroll; height: 60%; padding: 0; list-style: none;"></ul>
 		</div>
 	</div>
@@ -32,6 +32,7 @@
 	  });
 	  let totalDistance = 4493.7450153979025
 	  var completedDistance = 0.0
+	  var guessedNames = []
 	  var guessedStreets = {
 		'type': 'FeatureCollection',
 		'features': []
@@ -78,14 +79,33 @@
 				'line-width': 2
 			}
 		})
+		if (localStorage.getItem('save')) {
+			let savedGuesses = localStorage.getItem('save').split(',')
+			for (guess in savedGuesses) {
+				validateGuess(savedGuesses[guess])
+			}
+		} else {
+			localStorage.setItem('save', '')
+		}
 	  })
 
-	  if (!document.cookie) {
-	  	document.cookie = ""
-	  }
-	  let savedGuesses = document.cookie.split(',')
-	  for (guess in savedGuesses) {
-	  	validateGuess(guess)
+	  function validateGuess(guess) {
+	  	if (guessedNames.includes(guess)) {
+	  		return false
+	  	}
+	  	var feature = streetdata[guess]
+  		if (feature) {
+  			var percentage = calculatePercentage(feature.length, totalDistance)
+  			completedDistance += feature.length
+  			var completedPercentage = calculatePercentage(completedDistance, totalDistance)
+  			$('#score').html(`${completedPercentage}%`)
+  			$('#guesses').append(`<li>${percentage}% - ${guess}</li>`)
+  			guessedStreets.features.push(...feature.features)
+  			map.getSource('guessed').setData(guessedStreets)
+  			guessedNames.push(guess)
+  			return true
+  		}
+  		return false
 	  }
 	  
 	  $('#input').keypress((event) => {
@@ -93,35 +113,15 @@
 	  	if (keycode == '13') {
 	  		var input = $('#input').val().toUpperCase()
 	  		$('#input').val("")
-	  		var feature = streetdata[input]
-			if (feature) {
-				var percentage = calculatePercentage(feature.length, totalDistance)
-				completedDistance += feature.length
-				var completedPercentage = calculatePercentage(completedDistance, totalDistance)
-				$('#score').html(`${completedPercentage}%`)
-				$('#guesses').append(`<li>${percentage}% - ${input}</li>`)
-				guessedStreets.features.push(...feature.features)
-				map.getSource('guessed').setData(guessedStreets)
-				document.cookie += `${input},`
-				console.log(document.cookie)
-			}
+	  		if (validateGuess(input)) {
+	  			localStorage.setItem('save', `${localStorage.getItem('save')}${input},`)
+	  		}
 	  	}
 	  })
 
-	  function validateGuess(guess) {
-	  	console.log(guess)
-	  	var feature = streetdata[input]
-  		if (feature) {
-  			var percentage = calculatePercentage(feature.length, totalDistance)
-  			completedDistance += feature.length
-  			var completedPercentage = calculatePercentage(completedDistance, totalDistance)
-  			$('#score').html(`${completedPercentage}%`)
-  			$('#guesses').append(`<li>${percentage}% - ${input}</li>`)
-  			guessedStreets.features.push(...feature.features)
-  			map.getSource('guessed').setData(guessedStreets)
-  			return true
-  		}
-	  }
+	  $('#clear').on('click', (e) => {
+	  	localStorage.setItem('save', '')
+	  })
 
 	  function calculatePercentage(portion, total) {
 	  	var percentage = portion * 100

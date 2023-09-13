@@ -71,3 +71,9 @@ input {
 	padding-top: 0;
 	margin-top: 0;
 }
+
+button {
+	font-size: 0.8rem;
+	border-radius: 0.5rem;
+	background: white;
+}

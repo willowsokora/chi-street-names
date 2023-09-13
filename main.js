@@ -68,26 +68,6 @@ map.on('load', () => {
 	}
 })
 
-function validateGuess(guess) {
-	if (guessedNames.includes(guess)) {
-		return false
-	}
-	var feature = streetdata[guess]
-	if (feature) {
-		var percentage = calculatePercentage(feature.length, totalDistance)
-		completedDistance += feature.length
-		var completedPercentage = calculatePercentage(completedDistance, totalDistance)
-		$('#score').html(`${completedPercentage}%`)
-		$('#guesses').append(`<li>${percentage}% - ${guess}</li>`)
-		guessedStreets.features.push(...feature.features)
-		map.getSource('guessed').setData(guessedStreets)
-		guessedNames.push(guess)
-		$('#count').html(`${guessedNames.length} streets found`)
-		return true
-	}
-	return false
-}
-
 $('#input').keypress((event) => {
 	var keycode = (event.keyCode ? event.keyCode : event.which)
 	if (keycode == '13') {
@@ -122,6 +102,35 @@ $('#clear').on('click', (e) => {
 	guessedStreets.features = []
 	map.getSource('guessed').setData(guessedStreets)
 })
+
+let specialNames = {
+	'KING': 'DR MARTIN LUTHER KING JR',
+	'IDA B WELLS': 'CONGRESS'
+}
+
+function validateGuess(guess) {
+	var specialName = specialNames[guess]
+	if (specialName) {
+		return validateGuess(specialName)
+	}
+	if (guessedNames.includes(guess)) {
+		return false
+	}
+	var feature = streetdata[guess]
+	if (feature) {
+		var percentage = calculatePercentage(feature.length, totalDistance)
+		completedDistance += feature.length
+		var completedPercentage = calculatePercentage(completedDistance, totalDistance)
+		$('#score').html(`${completedPercentage}%`)
+		$('#guesses').append(`<li>${percentage}% - ${guess}</li>`)
+		guessedStreets.features.push(...feature.features)
+		map.getSource('guessed').setData(guessedStreets)
+		guessedNames.push(guess)
+		$('#count').html(`${guessedNames.length} streets found`)
+		return true
+	}
+	return false
+}
 
 function calculatePercentage(portion, total) {
 	var percentage = portion * 100

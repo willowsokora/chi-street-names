@@ -9,8 +9,27 @@ var map = new mapboxgl.Map({
 	bounds: [-88.0093789998174, 41.60657118494672, -87.4360300144202, 42.08636054196859],
 	fitBoundsOptions: { padding: 24 }
 })
-let totalDistance = 4493.7450153979025
-var completedDistance = 0.0
+var totalDistance = 0
+var nsDistance = 0
+var ewDistance = 0
+var diagDistance = 0
+var completedDistance = 0
+var nsCompleted = 0
+var ewCompleted = 0
+var diagCompleted = 0
+
+for (var street in streetdata) {
+	var length = streetdata[street].length
+	totalDistance += length
+	if (['E', 'W'].includes(streetdata[street].direction)) {
+		ewDistance += length
+	} else if (['N', 'S'].includes(streetdata[street].direction)) {
+		nsDistance += length
+	} else {
+		diagDistance += length
+	}
+}
+
 var guessedNames = []
 var guessedStreets = {
 	'type': 'FeatureCollection',
@@ -82,9 +101,7 @@ $('#input').keypress((event) => {
 
 $('#numberedhelper').on('click', (e) => {
 	for (street in streetdata) {
-		console.log(street)
 		if (street.match(/\d+(RD|ST|TH|ND)/g)) {
-			console.log(street)
 			if (validateGuess(street)) {
 				window.localStorage.setItem('save', `${localStorage.getItem('save')}${street},`)
 			}
@@ -96,8 +113,14 @@ $('#clear').on('click', (e) => {
 	window.localStorage.setItem('save', '')
 	$('#guesses').html('')
 	$('#score').html('0.00%')
+	$('#nsscore').html('0.00% of n/s streets')
+	$('#ewscore').html('0.00% of e/w streets')
+	$('#diagscore').html('0.00% of other streets')
 	$('#count').html('0 streets found')
-	completedDistance = 0.0
+	completedDistance = 0
+	nsCompleted = 0
+	ewCompleted = 0
+	diagCompleted = 0
 	guessedNames = []
 	guessedStreets.features = []
 	map.getSource('guessed').setData(guessedStreets)
@@ -121,6 +144,20 @@ function validateGuess(guess) {
 		var percentage = calculatePercentage(feature.length, totalDistance)
 		completedDistance += feature.length
 		var completedPercentage = calculatePercentage(completedDistance, totalDistance)
+		console.log(feature.direction)
+		if (['E', 'W'].includes(feature.direction)) {
+			ewCompleted += feature.length
+			let ewPercentage = calculatePercentage(ewCompleted, ewDistance)
+			$('#nsscore').html(`${ewPercentage}% of n/s streets`)
+		} else if (['N', 'S'].includes(feature.direction)) {
+			nsCompleted += feature.length
+			let nsPercentage = calculatePercentage(nsCompleted, nsDistance)
+			$('#ewscore').html(`${nsPercentage}% of e/w streets`)
+		} else {
+			diagCompleted += feature.length
+			let diagPercentage = calculatePercentage(diagCompleted, diagDistance)
+			$('#diagscore').html(`${diagPercentage}% of other streets`)
+		}
 		$('#score').html(`${completedPercentage}%`)
 		$('#guesses').append(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
 		guessedStreets.features.push(...feature.features)

@@ -24,6 +24,20 @@ body {
 	margin-right: 1rem;
 }
 
+#scores {
+	display: flex;
+	padding-top: 4rem;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+#auxscores {
+	display: flex;
+	justify-content: space-between;
+	padding-right: 2rem;
+	flex-flow: column wrap;
+}
+
 a {
 	color: whitesmoke;
 }
@@ -54,5 +68,6 @@ input {
 }
 
 #score {
-	padding-top: 4rem;
+	padding-top: 0;
+	margin-top: 0;
 }

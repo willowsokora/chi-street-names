@@ -14,8 +14,17 @@
 			<div id='map' style='width: 100%; height: 100%'></div>
 		</div>
 		<div id="sidecard">
-			<h1 id="score">0.00%</h1>
-			<p>of miles of streets named</p>
+			<div id="scores">
+				<div id="mainscore">
+					<h1 id="score">0.00%</h1>
+					<p>of miles of street named</p>
+				</div>
+				<div id="auxscores">
+					<div id="nsscore">0.00% of n/s streets</div>
+					<div id="ewscore">0.00% of e/w streets</div>
+					<div id="diagscore">0.00% of other streets</div>
+				</div>
+			</div>
 			<input id="input" type="text" placeholder="Enter street name"/>
 			<div style="display: flex;">
 				<h3 id="count">0 streets found</h3>

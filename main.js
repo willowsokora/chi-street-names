@@ -122,7 +122,7 @@ function validateGuess(guess) {
 		completedDistance += feature.length
 		var completedPercentage = calculatePercentage(completedDistance, totalDistance)
 		$('#score').html(`${completedPercentage}%`)
-		$('#guesses').append(`<li>${percentage}% - ${guess}</li>`)
+		$('#guesses').append(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
 		guessedStreets.features.push(...feature.features)
 		map.getSource('guessed').setData(guessedStreets)
 		guessedNames.push(guess)

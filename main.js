@@ -99,7 +99,20 @@ $('#input').keypress((event) => {
 	}
 })
 
+$('#numberedhelper').on('click', (e) => {
+	for (street in streetdata) {
+		console.log(street)
+		if (street.match(/\d+(RD|ST|TH|ND)/g)) {
+			console.log(street)
+			if (validateGuess(street)) {
+				window.localStorage.setItem('save', `${localStorage.getItem('save')}${street},`)
+			}
+		}
+	}
+})
+
 $('#clear').on('click', (e) => {
+	console.log('click')
 	window.localStorage.setItem('save', '')
 })
 

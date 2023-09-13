@@ -128,7 +128,8 @@ $('#clear').on('click', (e) => {
 let specialNames = {
 	'KING': 'DR MARTIN LUTHER KING JR',
 	'IDA B WELLS': 'CONGRESS',
-	'I-57': 'I57'
+	'I-57': 'I57',
+	'STONY ISLAND': 'STONY ISLAND EXT'
 }
 
 function validateGuess(guess) {

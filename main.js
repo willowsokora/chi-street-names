@@ -17,6 +17,7 @@ var completedDistance = 0
 var nsCompleted = 0
 var ewCompleted = 0
 var diagCompleted = 0
+let roadCount = Object.keys(streetdata).length
 
 for (var street in streetdata) {
 	var length = streetdata[street].length
@@ -84,6 +85,7 @@ map.on('load', () => {
 		}
 	} else {
 		window.localStorage.setItem('save', '')
+		$('#count').html(`0/${roadCount} streets found`)
 	}
 })
 
@@ -115,7 +117,7 @@ $('#clear').on('click', (e) => {
 	$('#nsscore').html('0.00% of n/s streets')
 	$('#ewscore').html('0.00% of e/w streets')
 	$('#diagscore').html('0.00% of other streets')
-	$('#count').html('0 streets found')
+	$('#count').html(`0/${roadCount} streets found`)
 	completedDistance = 0
 	nsCompleted = 0
 	ewCompleted = 0
@@ -128,8 +130,7 @@ $('#clear').on('click', (e) => {
 let specialNames = {
 	'KING': 'DR MARTIN LUTHER KING JR',
 	'IDA B WELLS': 'CONGRESS',
-	'I-57': 'I57',
-	'STONY ISLAND': 'STONY ISLAND EXT'
+	'I-57': 'I57'
 }
 
 function validateGuess(guess) {
@@ -163,7 +164,7 @@ function validateGuess(guess) {
 		guessedStreets.features.push(...feature.features)
 		map.getSource('guessed').setData(guessedStreets)
 		guessedNames.push(guess)
-		$('#count').html(`${guessedNames.length} streets found`)
+		$('#count').html(`${guessedNames.length}/${roadCount} streets found`)
 		return true
 	}
 	return false

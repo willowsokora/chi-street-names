@@ -1,4 +1,4 @@
-# Chicago street name guesser
+# [Chicago street name guesser](https://willowsokora.github.io/chi-street-names)
 
 [![pages-build-deployment](https://github.com/willowsokora/chi-street-names/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/willowsokora/chi-street-names/actions/workflows/pages/pages-build-deployment)
 

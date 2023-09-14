@@ -152,7 +152,7 @@ $('#show').on('click', (e) => {
 })
 
 $(window).resize(() => {
-	if ($(window).width() > 700) {
+	if ($(window).height() < $(window).width()) {
 		$('#extra').show()
 		$('#sidecard').css('height', '100%')
 	} else {

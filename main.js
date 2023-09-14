@@ -21,16 +21,16 @@ let roadCount = Object.keys(streetdata).length
 var selectedSortType = 'guess'
 var sorters = {
 	'guess': (a, b) => {
-		return guessedNames.indexOf(a) > guessedNames.indexOf(b)
+		return guessedNames.indexOf(a) - guessedNames.indexOf(b)
 	},
 	'alpha': (a, b) => {
-		return a > b
+		return a < b ? -1 : 1
 	},
 	'lenasc': (a, b) => {
-		return aLength = streetdata[a].length > streetdata[b].length
+		return streetdata[a].length - streetdata[b].length
 	},
 	'lendsc': (a, b) => {
-		return aLength = streetdata[a].length < streetdata[b].length
+		return -(streetdata[a].length - streetdata[b].length)
 	}
 }
 

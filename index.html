@@ -14,35 +14,43 @@
 			<div id='map' style='width: 100%; height: 100%'></div>
 		</div>
 		<div id="sidecard">
-			<div id="scores">
-				<div id="mainscore">
-					<h1 id="score">0.00%</h1>
-					<p>of miles of street named</p>
+			<div id="main">
+				<div id="scores">
+					<div id="mainscore">
+						<h1 id="score">0.00%</h1>
+						<p>of miles of street named</p>
+					</div>
+					<div id="auxscores">
+						<div id="nsscore">0.00% of n/s streets</div>
+						<div id="ewscore">0.00% of e/w streets</div>
+						<div id="diagscore">0.00% of other streets</div>
+					</div>
 				</div>
-				<div id="auxscores">
-					<div id="nsscore">0.00% of n/s streets</div>
-					<div id="ewscore">0.00% of e/w streets</div>
-					<div id="diagscore">0.00% of other streets</div>
+				<div style="display: flex; align-items: center;">
+					<input id="input" type="text" placeholder="Enter street name"/>
+					<button id="submit" type="button" class="mobile" style="margin-left: 1rem">+</button>
+					<button id="show" class="mobile" style="margin-left: 1rem">show roads</button>
 				</div>
 			</div>
-			<input id="input" type="text" placeholder="Enter street name"/>
-			<div style="display: flex;">
-				<h3 id="count">0/x streets found</h3>
-				<h3><a id="clear" href="javascript:;">(Clear)</a><h3>
-			</div>
-			<label for="sort">Sort: </label>
-			<select name="sort" id="sort">
-				<option value="guess">Order found</option>
-				<option value="alpha">Alphabetical</option>
-				<option value="lenasc">Length (Ascending)</option>
-				<option value="lendsc">Length (Descending)</option>
-			</select>
-			<ul id="guesses"></ul>
-			<div style="padding-bottom: 1rem; padding-right: 1rem;">
-				<button id="numberedhelper" title="automatically enters all ~130 numbered streets, so you don't have to!">Numbered Streets Cheat</button>
-				<br />
-				<br />
-				<a href="https://twitter.com/ahavaharavah" target="_blank">Get updates on Twitter</a>
+			<div id="extra">
+				<div style="display: flex;">
+					<h3 id="count">0/x streets found</h3>
+					<h3><a id="clear" href="javascript:;">(Clear)</a><h3>
+				</div>
+				<label for="sort">Sort: </label>
+				<select name="sort" id="sort">
+					<option value="guess">Order found</option>
+					<option value="alpha">Alphabetical</option>
+					<option value="lenasc">Length (Ascending)</option>
+					<option value="lendsc">Length (Descending)</option>
+				</select>
+				<ul id="guesses"></ul>
+				<div style="padding-bottom: 1rem; padding-right: 1rem;">
+					<button id="numberedhelper" title="automatically enters all ~130 numbered streets, so you don't have to!">Numbered Streets Cheat</button>
+					<br />
+					<br />
+					<a href="https://twitter.com/ahavaharavah" target="_blank">Get updates on Twitter</a>
+				</div>
 			</div>
 		</div>
 	</div>

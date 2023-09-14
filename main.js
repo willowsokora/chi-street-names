@@ -131,6 +131,36 @@ $('#input').keypress((event) => {
 	}
 })
 
+$('#submit').on('click', (e) => {
+	var input = $('#input').val().toUpperCase()
+	$('#input').val('')
+	if (validateGuess(input)) {
+		window.localStorage.setItem('save', `${localStorage.getItem('save')}${input},`)
+	}
+})
+
+$('#show').on('click', (e) => {
+	if ($('#show').html() == 'show roads') {
+		$('#extra').show()
+		$('#show').html('hide roads')
+		$('#sidecard').css('height', '100%')
+	} else {
+		$('#extra').hide()
+		$('#show').html('show roads')
+		$('#sidecard').css('height', '20%')
+	}
+})
+
+$(window).resize(() => {
+	if ($(window).width() > 700) {
+		$('#extra').show()
+		$('#sidecard').css('height', '100%')
+	} else {
+		$('#extra').hide()
+		$('#sidecard').css('height', '20%')
+	}
+})
+
 $('#numberedhelper').on('click', (e) => {
 	for (street in streetdata) {
 		if (street.match(/\d+(RD|ST|TH|ND)/g)) {

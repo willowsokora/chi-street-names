@@ -18,6 +18,37 @@ var nsCompleted = 0
 var ewCompleted = 0
 var diagCompleted = 0
 let roadCount = Object.keys(streetdata).length
+var selectedSortType = 'guess'
+var sorters = {
+	'guess': (a, b) => {
+		return guessedNames.indexOf(a) > guessedNames.indexOf(b)
+	},
+	'alpha': (a, b) => {
+		return a > b
+	},
+	'lenasc': (a, b) => {
+		return aLength = streetdata[a].length > streetdata[b].length
+	},
+	'lendsc': (a, b) => {
+		return aLength = streetdata[a].length < streetdata[b].length
+	}
+}
+
+var sortedNames = []
+
+$('#sort').on('change', (e) => {
+	selectedSortType = $('#sort').val()
+	let sorter = sorters[selectedSortType]
+	sortedNames = [...guessedNames]
+	sortedNames.sort(sorter)
+	$('#guesses').html('')
+	for (street in sortedNames) {
+		let name = sortedNames[street]
+		let feature = streetdata[name]
+		let percentage = calculatePercentage(feature.length, totalDistance)
+		$('#guesses').append(`<li><div>${name}</div><div>${percentage}%</div></li>`)
+	}
+})
 
 for (var street in streetdata) {
 	var length = streetdata[street].length
@@ -160,14 +191,33 @@ function validateGuess(guess) {
 			$('#diagscore').html(`${diagPercentage}% of other streets`)
 		}
 		$('#score').html(`${completedPercentage}%`)
-		$('#guesses').append(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
+		guessedNames.push(guess)
+		if (selectedSortType == 'guess') {
+			$('#guesses').append(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
+		} else {
+			let insertIndex = bisect(sortedNames, guess)
+			sortedNames.splice(insertIndex, 0, guess)
+			$(`#guesses li:eq(${insertIndex})`).before(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
+		}
 		guessedStreets.features.push(...feature.features)
 		map.getSource('guessed').setData(guessedStreets)
-		guessedNames.push(guess)
 		$('#count').html(`${guessedNames.length}/${roadCount} streets found`)
 		return true
 	}
 	return false
+}
+
+function bisect(array, value, low=0, high=array.length) {
+	let sorter = sorters[selectedSortType]
+	while(low < high) {
+		let mid = (low + high) >> 1
+		if (sorter(array[mid], value)) {
+			high = mid
+		} else {
+			low = mid + 1
+		}
+	}
+	return low
 }
 
 function calculatePercentage(portion, total) {

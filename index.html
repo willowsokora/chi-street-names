@@ -30,9 +30,16 @@
 				<h3 id="count">0/x streets found</h3>
 				<h3><a id="clear" href="javascript:;">(Clear)</a><h3>
 			</div>
+			<label for="sort">Sort: </label>
+			<select name="sort" id="sort">
+				<option value="guess">Order found</option>
+				<option value="alpha">Alphabetical</option>
+				<option value="lenasc">Length (Ascending)</option>
+				<option value="lendsc">Length (Descending)</option>
+			</select>
 			<ul id="guesses"></ul>
 			<div style="padding-bottom: 1rem; padding-right: 1rem;">
-				<button id="numberedhelper">Auto-populate numbered streets (there's so many smh my head)</button>
+				<button id="numberedhelper" title="automatically enters all ~130 numbered streets, so you don't have to!">Numbered Streets Cheat</button>
 				<br />
 				<br />
 				<a href="https://twitter.com/ahavaharavah" target="_blank">Get updates on Twitter</a>

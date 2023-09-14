@@ -196,8 +196,13 @@ function validateGuess(guess) {
 			$('#guesses').append(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
 		} else {
 			let insertIndex = bisect(sortedNames, guess)
-			sortedNames.splice(insertIndex, 0, guess)
-			$(`#guesses li:eq(${insertIndex})`).before(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
+			if (insertIndex == 0) {
+				sortedNames.push(guess)
+				$('#guesses').append(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
+			} else {
+				sortedNames.splice(insertIndex, 0, guess)
+				$(`#guesses li:eq(${insertIndex})`).before(`<li><div>${guess}</div><div>${percentage}%</div></li>`)
+			}
 		}
 		guessedStreets.features.push(...feature.features)
 		map.getSource('guessed').setData(guessedStreets)

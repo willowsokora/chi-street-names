@@ -151,16 +151,6 @@ $('#show').on('click', (e) => {
 	}
 })
 
-$(window).resize(() => {
-	if ($(window).height() < $(window).width()) {
-		$('#extra').show()
-		$('#sidecard').css('height', '100%')
-	} else {
-		$('#extra').hide()
-		$('#sidecard').css('height', '20%')
-	}
-})
-
 $('#numberedhelper').on('click', (e) => {
 	for (street in streetdata) {
 		if (street.match(/\d+(RD|ST|TH|ND)/g)) {

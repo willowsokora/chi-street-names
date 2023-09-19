@@ -1,7 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJhdmFoIiwiYSI6ImNsbWgybTBqaDBlM3EzcW85OHEwenp3YzIifQ.mpbMnWypk_KaLzVqgrcl-A'
 var map = new mapboxgl.Map({
 	container: 'map',
-	style: 'mapbox://styles/aravah/clmh2on7j03o901ph49xte8ds',
+	style: 'mapbox://styles/aravah/clmqttzvo04w801p75i6o34kd',
 	dragRotate: false,
 	maxPitch: 0,
 	minZoom: 10,
@@ -105,7 +105,7 @@ map.on('load', () => {
 			'line-cap': 'round'
 		},
 		'paint': {
-			'line-color': '#30d963',
+			'line-color': '#41b6e6',
 			'line-width': 2
 		}
 	})
@@ -118,6 +118,18 @@ map.on('load', () => {
 		window.localStorage.setItem('save', '')
 		$('#count').html(`0/${roadCount} streets found`)
 	}
+	map.addSource('chicago', {
+		'type': 'geojson',
+		'data': chicago
+	})
+	map.addLayer({
+		'id': 'chicago',
+		'type': 'fill',
+		'source': 'chicago',
+		'paint': {
+			'fill-color': '#20052e',
+		}
+	})
 })
 
 $('#input').keypress((event) => {

@@ -88,7 +88,7 @@ map.on('load', () => {
 			'line-cap': 'round'
 		},
 		'paint': {
-			'line-color': '#4e355a',
+			'line-color': '#4d4d4d',
 			'line-width': 1
 		}
 	})
